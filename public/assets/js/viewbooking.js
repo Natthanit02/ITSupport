@@ -18,7 +18,7 @@ const auth = getAuth();
 
 let currentUser = null;
 let isAdmin = false;
-const ADMIN_EMAIL = "admin@example.com";
+const ADMIN_EMAIL = "it.swp01@gmail.com";
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user;

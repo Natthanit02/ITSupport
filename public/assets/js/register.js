@@ -7,13 +7,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAd7bpCPw1oWtiGxlEtCFeGlz8VWJyl2qU",
-  authDomain: "booking-5e179.firebaseapp.com",
-  projectId: "booking-5e179",
-  storageBucket: "booking-5e179.firebasestorage.app",
-  messagingSenderId: "366969810084",
-  appId: "1:366969810084:web:691d6fdba8cf1f12c94a31",
-  measurementId: "G-25NZLH1E04"
+  apiKey: "AIzaSyA9T_Ai-SNZaoP7WSC3eIBHgMJHfnw5J_E",
+  authDomain: "itsupportswp.firebaseapp.com",
+  projectId: "itsupportswp",
+  storageBucket: "itsupportswp.firebasestorage.app",
+  messagingSenderId: "782971532",
+  appId: "1:782971532:web:e394f211af0abe597b01a9",
+  measurementId: "G-1D3N4KQ7J1"
 };
 
 const app = initializeApp(firebaseConfig);
