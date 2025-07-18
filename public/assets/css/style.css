@@ -1,52 +1,49 @@
 /* ===== Global Styles ===== */
-html,
-body {
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
     font-family: "Segoe UI", sans-serif;
     height: 100%;
     width: 100%;
     overflow-x: hidden;
-    /* ป้องกันเลื่อนแนวนอนบนจอแคบ */
     margin: 0;
     padding: 0;
     background-color: #f4f6f8;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* ===== Navigation Bar ===== */
 nav {
     width: 100%;
     background-color: #003366;
-    padding: 10px 20px;
-    box-sizing: border-box;
-    z-index: 1000;
+    padding: 10px 0; /* ไม่ต้อง padding ซ้ายขวา */
     position: sticky;
     top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: auto;
+    z-index: 1000;
 }
 
-nav .logo {
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    text-decoration: none;
-    text-transform: uppercase;
+nav .nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;         /* จัดให้อยู่ตรงกลางหน้าจอ */
+    padding: 0 20px;        /* ชิดซ้ายเหมือน .container */
 }
 
 nav .link {
     display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    max-width: 1000px;
-    margin: 0 auto;
+    gap: 15px;
 }
 
 nav .link a {
     color: white;
     font-weight: bold;
     text-decoration: none;
-    margin-left: 15px;
     font-size: 16px;
     padding: 10px;
     border-radius: 5px;
@@ -57,7 +54,6 @@ nav .link a:hover {
     background-color: #0056b3;
     transform: scale(1.05);
 }
-
 /* ===== Container Styles ===== */
 .container {
     background-color: white;
@@ -68,7 +64,7 @@ nav .link a:hover {
     width: 100%;
     max-width: 1000px;
     text-align: center;
-    flex: 1;
+    box-sizing: border-box;
 }
 
 /* ===== Service Grid Styles ===== */
@@ -131,15 +127,8 @@ footer {
     padding: 10px;
     font-size: 15px;
     text-align: center;
-    position: relative;
-    bottom: 0;
     width: 100%;
-}  
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    margin-top: auto; /* ✅ สำคัญ: ดันลงล่างถ้าเนื้อหาไม่เต็มจอ */
 }
 /* ===== Responsive Design for Mobile ===== */
 @media (max-width: 768px) {
