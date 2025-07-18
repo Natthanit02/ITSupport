@@ -30,6 +30,11 @@ onAuthStateChanged(auth, user => {
     console.log("\u274C ผู้ใช้ไม่ได้ล็อกอิน");
   }
 
+  const adminLink = document.getElementById("adminLink");
+  if (adminLink) {
+    adminLink.style.display = isAdmin ? "block" : "none";
+  }
+
   cleanupOldBookings();
 });
 
@@ -169,7 +174,7 @@ async function checkRoomStatusNow() {
 checkRoomStatusNow();
 setInterval(checkRoomStatusNow, 60000);
 
-// ลบข้อมูลย้อนหลัง
+// ลบข้อมูลย้อนหลัง --------------------------------------------------------------------------------------
 async function cleanupOldBookings() {
   console.log("\uD83E\uDEC1 เรียก cleanupOldBookings()");
   const today = new Date();
