@@ -31,22 +31,37 @@ a:hover {
 /* ===== Navigation Bar ===== */
 nav {
   width: 100%;
-  background-color: #003366;
-  padding: 10px 0; /* ไม่ต้อง padding ซ้ายขวา */
+  background: rgba(0, 51, 102, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 10px 0;
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 nav .nav-inner {
   max-width: 1000px;
-  margin: 0 auto; /* จัดให้อยู่ตรงกลางหน้าจอ */
-  padding: 0 20px; /* ชิดซ้ายเหมือน .container */
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 nav .link {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 nav .link a {
@@ -62,6 +77,17 @@ nav .link a {
 nav .link a:hover {
   background-color: #0056b3;
   transform: scale(1.05);
+}
+
+/* Mobile Menu Toggle Button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
 }
 
 /* ===== Container Styles ===== */
@@ -88,19 +114,14 @@ nav .link a:hover {
 form {
   display: flex;
   flex-direction: column;
-  /* จัดการให้ label อยู่ในแนวตั้ง */
   align-items: center;
-  /* จัดการให้ label อยู่กลางแนวนอน */
   justify-content: center;
-  /* จัดการให้ label อยู่กลางแนวตั้ง */
 }
 
 form label {
   width: auto;
-  /* กำหนดให้ label ไม่ต้องเต็มความกว้าง */
   display: block;
   text-align: center;
-  /* จัดตำแหน่งเนื้อหาภายใน label ให้อยู่กลาง */
   padding: 5px;
   color: #444;
 }
@@ -145,11 +166,12 @@ table {
 table th,
 table td {
   padding: 10px;
-  text-align: center; /* จัดกลางแนวนอน */
-  vertical-align: middle; /* ✅ จัดกลางแนวตั้ง */
+  text-align: center;
+  vertical-align: middle;
   border: 1px solid #ccc;
   font-size: 14px;
 }
+
 th,
 td {
   padding: 6px 12px;
@@ -281,33 +303,70 @@ tbody tr:nth-child(even) {
   margin: 20px auto;
   z-index: 10;
 }
+
 /* ===== Responsive Design for Mobile ===== */
 @media (max-width: 768px) {
-  /* Navigation Bar */
-
+  /* Navigation Bar - Improved Mobile Design */
   nav {
-    padding: 10px;
-    flex-direction: column;
-    /* จัด nav ให้เป็นคอลัมน์ */
-    align-items: flex-start;
+    padding: 12px 0;
   }
 
-  nav .logo {
+  nav .nav-inner {
+    padding: 0 15px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
     font-size: 18px;
+    flex-shrink: 0;
   }
 
+  /* Show mobile menu toggle button */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Hide navigation links by default on mobile */
   nav .link {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
-    justify-content: center;
+    background: rgba(0, 51, 102, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
-    /* ทำให้ลิงก์แสดงในแนวตั้ง */
-    margin-top: 10px;
+    gap: 0;
+    padding: 10px 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 16px 16px;
+  }
+
+  /* Show navigation links when menu is active */
+  nav .link.active {
+    display: flex;
   }
 
   nav .link a {
-    margin: 5px 0;
-    font-size: 14px;
-    padding: 8px;
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 0;
+    font-size: 16px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  nav .link a:last-child {
+    border-bottom: none;
+  }
+
+  nav .link a:hover {
+    background-color: #0056b3;
+    transform: none;
   }
 
   /* Container */
@@ -327,14 +386,12 @@ tbody tr:nth-child(even) {
   input,
   select {
     width: 90%;
-    /* ลดความกว้างเป็น 90% */
     font-size: 14px;
     margin-top: 15px;
   }
 
   .btn-booking {
     width: 90%;
-    /* ลดความกว้างของปุ่ม */
     font-size: 14px;
     padding: 12px;
   }
@@ -344,6 +401,8 @@ tbody tr:nth-child(even) {
     font-size: 14px;
     padding: 10px 15px;
   }
+
+  /* Table Styles */
   table,
   thead,
   tbody,
@@ -367,8 +426,8 @@ tbody tr:nth-child(even) {
 
   tbody td {
     display: flex;
-    align-items: center; /* กลางแนวตั้ง */
-    justify-content: center; /* กลางแนวนอน */
+    align-items: center;
+    justify-content: center;
     padding: 20px 10px;
     position: relative;
   }
@@ -387,19 +446,26 @@ tbody tr:nth-child(even) {
 
 /* ===== Very Small Screen (Mobile) ===== */
 @media (max-width: 480px) {
-  /* Navigation Bar */
+  /* Navigation Bar - Extra Small Screens */
   nav {
-    padding: 8px;
+    padding: 10px 0;
   }
 
-  nav .logo {
+  nav .nav-inner {
+    padding: 0 10px;
+  }
+
+  .logo {
     font-size: 16px;
   }
 
+  .menu-toggle {
+    font-size: 22px;
+  }
+
   nav .link a {
-    font-size: 12px;
-    padding: 6px;
-    margin: 4px 0;
+    font-size: 14px;
+    padding: 10px 15px;
   }
 
   /* Form Inputs & Buttons */
@@ -420,6 +486,9 @@ tbody tr:nth-child(even) {
   .popup {
     font-size: 13px;
     padding: 8px 12px;
+    top: 10px;
+    right: 10px;
+    left: 10px;
   }
 
   /* Table Styles */

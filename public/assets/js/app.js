@@ -199,3 +199,15 @@ async function cleanupOldBookings() {
     console.log(`\uD83D\uDDD1\uFE0F ลบข้อมูลการจองย้อนหลัง ${deleteCount} รายการแล้ว`);
   }
 }
+
+// naveigation menu toggle -----------------------------------------------------
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('nav .link');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+    }
+});
