@@ -128,12 +128,14 @@ async function checkRoomStatusNow() {
   }
 
   const rooms = [
-    "ห้องประชุม Moshi & DIY",
     "ห้องประชุม SWP",
+    "ห้องประชุม Moshi & DIY",
     "ห้องประชุม GM",
     "ห้องประชุม MD",
-    "ห้องประชุม ห้องไม้",
-    "ห้องประชุม QM"
+    "ห้องประชุม ERP",
+    "ห้องประชุม QM",
+    "ห้องประ ESK",
+    "ห้องอบรมสัมมนา"
   ];
 
   const roomStatusList = document.getElementById("roomStatus");
