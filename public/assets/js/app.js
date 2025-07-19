@@ -18,11 +18,11 @@ const auth = getAuth(app);
 
 let currentUser = null;
 let isAdmin = false;
-const ADMIN_EMAIL = "it.swp01@gmail.com";
+const ADMIN_EMAILS = ["it.swp01@gmail.com", "admin2@example.com", "admin3@example.com"];
 
 onAuthStateChanged(auth, user => {
   currentUser = user;
-  isAdmin = user && user.email === ADMIN_EMAIL;
+  isAdmin = user && ADMIN_EMAILS.includes(user.email);
 
   if (user) {
     console.log("\u2705 currentUser:", user.email);
