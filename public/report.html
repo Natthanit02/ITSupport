@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>แจ้งซ่อม IT</title>
+  <link rel="stylesheet" href="assets/css/report.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>🛠️ ฟอร์มแจ้งซ่อม IT</h1>
+    <p class="lead">
+      กรอกข้อมูลให้ครบถ้วนเพื่อให้ทีม IT ช่วยได้เร็วที่สุด ✨
+    </p>
+
+    <!-- ฟอร์มใช้ iframe เพื่อหลีกเลี่ยง CORS -->
+    <form id="ticketForm" method="POST" target="response-frame" enctype="multipart/form-data"
+      action="https://script.google.com/macros/s/AKfycbyD5MVmkSpLNRMXTZy6WwsiVTZGJV5JXseXgqUJWYyLnMSGOny5CfQJJuVg-A6Bl-VqBQ/exec">
+
+      <div class="grid">
+        <div>
+          <label>แผนก<span class="req">*</span></label>
+          <select name="department" required>
+            <option value="">-- เลือกแผนก --</option>
+            <option>บัญชี</option>
+            <option>การเงิน</option>
+            <option>บุคคล</option>
+            <option>ไอที</option>
+            <option>การตลาด</option>
+            <option>จัดซื้อ</option>
+            <option>คลังสินค้า</option>
+            <option>อื่นๆ</option>
+          </select>
+        </div>
+
+        <div>
+          <label>ชื่อผู้แจ้ง<span class="req">*</span></label>
+          <input type="text" name="requester" required placeholder="เช่น สมชาย ใจดี" />
+        </div>
+
+        <div>
+          <label>ช่องทางติดต่อ<span class="req">*</span></label>
+          <input type="text" name="contact" required placeholder="เบอร์ภายใน, มือถือ หรืออีเมล" />
+        </div>
+
+        <div>
+          <label>วัตถุประสงค์<span class="req">*</span></label>
+          <select name="purpose" required>
+            <option value="">-- เลือกวัตถุประสงค์ --</option>
+            <option>เพิ่ม</option>
+            <option>ย้าย</option>
+            <option>ติดตั้ง</option>
+            <option>แก้ไข</option>
+            <option>อื่นๆ</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-1">
+        <div>
+          <label>ปัญหาที่พบ ด้านไอที<span class="req">*</span></label>
+          <select name="title" required>
+            <option value="">-- เลือกปัญหาที่พบ --</option>
+            <option>Printer (ปริ๊นเตอร์)</option>
+            <option>Program (โปรแกรม)</option>
+            <option>Computer (คอมพิวเตอร์)</option>
+            <option>Internet / WIFI (อินเตอร์เน็ท)</option>
+            <option>Telephone (โทรศัพท์)</option>
+            <option>CCTV</option>
+            <option>อุปกรณ์ IT อื่นๆ</option>
+          </select>
+        </div>
+
+        <div>
+          <label>รายละเอียดปัญหา<span class="req">*</span></label>
+          <textarea name="detail" required
+            placeholder="อธิบายอาการ, เกิดตั้งแต่เมื่อไร, มีข้อความ error อะไร"></textarea>
+        </div>
+
+      <div>
+        <label>แนบรูปภาพ (ถ้ามี)</label>
+        <input type="file" name="file" accept="image/*" />
+      </div>
+
+      <div class="note">
+        💡 หลังส่งฟอร์ม ระบบจะบันทึกลง Google Sheets และส่งแจ้งเตือนเข้ากลุ่ม LINE ของทีม IT อัตโนมัติ
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">ส่งแจ้งซ่อม</button>
+        <button type="reset" class="btn btn-secondary">ล้างฟอร์ม</button>
+      </div>
+
+      <div id="status" class="status"></div>
+    </form>
+
+    <!-- iframe สำหรับรับ response -->
+    <iframe id="response-frame" name="response-frame" style="display: none;"></iframe>
+
+    <div class="footer">© 2024 IT Support</div>
+  </div>
+
+  <script>
+    const form = document.getElementById("ticketForm");
+    const statusEl = document.getElementById("status");
+    const iframe = document.getElementById("response-frame");
+
+    // ฟังก์ชันแสดงสถานะ
+    function showStatus(message, isSuccess = false) {
+      statusEl.textContent = message;
+      statusEl.className = `status ${isSuccess ? 'ok' : 'bad'}`;
+      statusEl.style.display = 'block';
+
+      setTimeout(() => {
+        statusEl.style.display = 'none';
+      }, 5000);
+    }
+
+    // จัดการการส่งฟอร์ม
+    form.addEventListener("submit", function (e) {
+      showStatus("⏳ กำลังส่งข้อมูล... โปรดรอสักครู่");
+
+      // ตั้งเวลาตรวจสอบผลลัพธ์
+      setTimeout(() => {
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const content = iframeDoc.body.textContent || iframeDoc.body.innerText;
+
+          if (content) {
+            try {
+              const result = JSON.parse(content);
+              if (result.success) {
+                showStatus(`✅ ส่งแจ้งซ่อมสำเร็จ! หมายเลขงาน: ${result.ticketNo}`, true);
+                form.reset();
+              } else {
+                showStatus(`❌ ${result.message}`);
+              }
+            } catch (e) {
+              // หาก response ไม่ใช่ JSON อาจเป็นการส่งสำเร็จ
+              if (content.includes("success") || content.length > 0) {
+                showStatus("✅ ส่งข้อมูลสำเร็จแล้ว", true);
+                form.reset();
+              } else {
+                showStatus("❌ เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ");
+              }
+            }
+          } else {
+            showStatus("❌ ไม่ได้รับการตอบสนองจากเซิร์ฟเวอร์");
+          }
+        } catch (e) {
+          showStatus("✅ ส่งข้อมูลแล้ว กรุณารอการยืนยัน", true);
+          form.reset();
+        }
+      }, 3000); // รอ 3 วินาที
+    });
+
+    // ล้างสถานะเมื่อรีเซ็ตฟอร์ม
+    form.addEventListener("reset", () => {
+      statusEl.style.display = 'none';
+    });
+
+    // image 
+  </script>
+</body>
+
+</html>
